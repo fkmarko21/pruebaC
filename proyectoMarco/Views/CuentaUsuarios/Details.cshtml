@@ -1,0 +1,83 @@
+﻿@model proyectoMarco.Models.CuentaUsuario
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CuentaUsuario</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.correo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.correo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.contraseña)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contraseña)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.contraseñaAntigua)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.contraseñaAntigua)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.direccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.direccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.habilitacionCuenta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.habilitacionCuenta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.numeroFijo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.numeroFijo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.numeroTelefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.numeroTelefono)
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

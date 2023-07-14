@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BotilleriaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Categoria">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="eliminar" Type="bit" Nullable="false" />
+    <Property Name="fechaEliminacion" Type="date" />
+  </EntityType>
+  <EntityType Name="Ciudad">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="idRegion" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Comunas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="idCiudad" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CuentaUsuario">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="correo" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="contraseña" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="contraseñaAntigua" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="direccion" Type="nchar" MaxLength="10" />
+    <Property Name="habilitacionCuenta" Type="bit" Nullable="false" />
+    <Property Name="numeroFijo" Type="varchar" MaxLength="12" />
+    <Property Name="numeroTelefono" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="eliminar" Type="bit" Nullable="false" />
+    <Property Name="fechaEliminacion" Type="date" />
+  </EntityType>
+  <EntityType Name="DetalleProveedor">
+    <Key>
+      <PropertyRef Name="idProductos" />
+      <PropertyRef Name="idProveedor" />
+    </Key>
+    <Property Name="idProductos" Type="int" Nullable="false" />
+    <Property Name="idProveedor" Type="int" Nullable="false" />
+    <Property Name="cantidad" Type="int" Nullable="false" />
+    <Property Name="subtotal" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DetalleVentas">
+    <Key>
+      <PropertyRef Name="idVenta" />
+      <PropertyRef Name="idProducto" />
+    </Key>
+    <Property Name="idVenta" Type="int" Nullable="false" />
+    <Property Name="idProducto" Type="int" Nullable="false" />
+    <Property Name="cantidad" Type="int" Nullable="false" />
+    <Property Name="subtotal" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Direccion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="idComunas" Type="int" Nullable="false" />
+    <Property Name="idCuentaUsuario" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Productos">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="gradosAlcohol" Type="smallint" Nullable="false" />
+    <Property Name="precio" Type="smallint" Nullable="false" />
+    <Property Name="stock" Type="smallint" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="idCategoria" Type="int" Nullable="false" />
+    <Property Name="proveedor" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="eliminar" Type="bit" Nullable="false" />
+    <Property Name="fechaEliminacion" Type="date" />
+  </EntityType>
+  <EntityType Name="Proveedor">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombreProveedor" Type="varchar" MaxLength="50" />
+    <Property Name="direccion" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Region">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ventas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fecha" Type="nchar" MaxLength="10" />
+    <Property Name="montoTotal" Type="nchar" MaxLength="10" />
+    <Property Name="descripcion" Type="nchar" MaxLength="10" />
+    <Property Name="idUsuario" Type="int" />
+  </EntityType>
+  <Association Name="FK_Ciudad_Region">
+    <End Role="Region" Type="Self.Region" Multiplicity="1" />
+    <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Ciudad">
+        <PropertyRef Name="idRegion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comunas_Ciudad">
+    <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="1" />
+    <End Role="Comunas" Type="Self.Comunas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ciudad">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Comunas">
+        <PropertyRef Name="idCiudad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleProveedor_Productos">
+    <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+    <End Role="DetalleProveedor" Type="Self.DetalleProveedor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productos">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="DetalleProveedor">
+        <PropertyRef Name="idProductos" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleProveedor_Proveedor">
+    <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
+    <End Role="DetalleProveedor" Type="Self.DetalleProveedor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proveedor">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="DetalleProveedor">
+        <PropertyRef Name="idProveedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleVentas_Productos">
+    <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+    <End Role="DetalleVentas" Type="Self.DetalleVentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productos">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="DetalleVentas">
+        <PropertyRef Name="idProducto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleVentas_Ventas">
+    <End Role="Ventas" Type="Self.Ventas" Multiplicity="1" />
+    <End Role="DetalleVentas" Type="Self.DetalleVentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ventas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="DetalleVentas">
+        <PropertyRef Name="idVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Direccion_Comunas">
+    <End Role="Comunas" Type="Self.Comunas" Multiplicity="1" />
+    <End Role="Direccion" Type="Self.Direccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comunas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Direccion">
+        <PropertyRef Name="idComunas" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Direccion_CuentaUsuario">
+    <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
+    <End Role="Direccion" Type="Self.Direccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Direccion">
+        <PropertyRef Name="idCuentaUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Productos_Categoria">
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+    <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Productos">
+        <PropertyRef Name="idCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ventas_CuentaUsuario">
+    <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="0..1" />
+    <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="BotilleriaModelStoreContainer">
+    <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ciudad" EntityType="Self.Ciudad" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comunas" EntityType="Self.Comunas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DetalleProveedor" EntityType="Self.DetalleProveedor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DetalleVentas" EntityType="Self.DetalleVentas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Direccion" EntityType="Self.Direccion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Proveedor" EntityType="Self.Proveedor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Ciudad_Region" Association="Self.FK_Ciudad_Region">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Ciudad" EntitySet="Ciudad" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comunas_Ciudad" Association="Self.FK_Comunas_Ciudad">
+      <End Role="Ciudad" EntitySet="Ciudad" />
+      <End Role="Comunas" EntitySet="Comunas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleProveedor_Productos" Association="Self.FK_DetalleProveedor_Productos">
+      <End Role="Productos" EntitySet="Productos" />
+      <End Role="DetalleProveedor" EntitySet="DetalleProveedor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleProveedor_Proveedor" Association="Self.FK_DetalleProveedor_Proveedor">
+      <End Role="Proveedor" EntitySet="Proveedor" />
+      <End Role="DetalleProveedor" EntitySet="DetalleProveedor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleVentas_Productos" Association="Self.FK_DetalleVentas_Productos">
+      <End Role="Productos" EntitySet="Productos" />
+      <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleVentas_Ventas" Association="Self.FK_DetalleVentas_Ventas">
+      <End Role="Ventas" EntitySet="Ventas" />
+      <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Direccion_Comunas" Association="Self.FK_Direccion_Comunas">
+      <End Role="Comunas" EntitySet="Comunas" />
+      <End Role="Direccion" EntitySet="Direccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Direccion_CuentaUsuario" Association="Self.FK_Direccion_CuentaUsuario">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Direccion" EntitySet="Direccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Productos_Categoria" Association="Self.FK_Productos_Categoria">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="Productos" EntitySet="Productos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ventas_CuentaUsuario" Association="Self.FK_Ventas_CuentaUsuario">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Ventas" EntitySet="Ventas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

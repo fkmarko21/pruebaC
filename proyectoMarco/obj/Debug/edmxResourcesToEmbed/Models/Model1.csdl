@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BotilleriaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Categoria">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="eliminar" Type="Boolean" Nullable="false" />
+    <Property Name="fechaEliminacion" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Productos" Relationship="Self.FK_Productos_Categoria" FromRole="Categoria" ToRole="Productos" />
+  </EntityType>
+  <EntityType Name="Ciudad">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="idRegion" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Region" Relationship="Self.FK_Ciudad_Region" FromRole="Ciudad" ToRole="Region" />
+    <NavigationProperty Name="Comunas" Relationship="Self.FK_Comunas_Ciudad" FromRole="Ciudad" ToRole="Comunas" />
+  </EntityType>
+  <EntityType Name="Comunas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="idCiudad" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Ciudad" Relationship="Self.FK_Comunas_Ciudad" FromRole="Comunas" ToRole="Ciudad" />
+    <NavigationProperty Name="Direccion" Relationship="Self.FK_Direccion_Comunas" FromRole="Comunas" ToRole="Direccion" />
+  </EntityType>
+  <EntityType Name="CuentaUsuario">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="contraseña" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="contraseñaAntigua" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="direccion" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="habilitacionCuenta" Type="Boolean" Nullable="false" />
+    <Property Name="numeroFijo" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="numeroTelefono" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="eliminar" Type="Boolean" Nullable="false" />
+    <Property Name="fechaEliminacion" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Direccion1" Relationship="Self.FK_Direccion_CuentaUsuario" FromRole="CuentaUsuario" ToRole="Direccion" />
+    <NavigationProperty Name="Ventas" Relationship="Self.FK_Ventas_CuentaUsuario" FromRole="CuentaUsuario" ToRole="Ventas" />
+  </EntityType>
+  <EntityType Name="DetalleProveedor">
+    <Key>
+      <PropertyRef Name="idProductos" />
+      <PropertyRef Name="idProveedor" />
+    </Key>
+    <Property Name="idProductos" Type="Int32" Nullable="false" />
+    <Property Name="idProveedor" Type="Int32" Nullable="false" />
+    <Property Name="cantidad" Type="Int32" Nullable="false" />
+    <Property Name="subtotal" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Productos" Relationship="Self.FK_DetalleProveedor_Productos" FromRole="DetalleProveedor" ToRole="Productos" />
+    <NavigationProperty Name="Proveedor" Relationship="Self.FK_DetalleProveedor_Proveedor" FromRole="DetalleProveedor" ToRole="Proveedor" />
+  </EntityType>
+  <EntityType Name="DetalleVentas">
+    <Key>
+      <PropertyRef Name="idVenta" />
+      <PropertyRef Name="idProducto" />
+    </Key>
+    <Property Name="idVenta" Type="Int32" Nullable="false" />
+    <Property Name="idProducto" Type="Int32" Nullable="false" />
+    <Property Name="cantidad" Type="Int32" Nullable="false" />
+    <Property Name="subtotal" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Productos" Relationship="Self.FK_DetalleVentas_Productos" FromRole="DetalleVentas" ToRole="Productos" />
+    <NavigationProperty Name="Ventas" Relationship="Self.FK_DetalleVentas_Ventas" FromRole="DetalleVentas" ToRole="Ventas" />
+  </EntityType>
+  <EntityType Name="Direccion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="idComunas" Type="Int32" Nullable="false" />
+    <Property Name="idCuentaUsuario" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Comunas" Relationship="Self.FK_Direccion_Comunas" FromRole="Direccion" ToRole="Comunas" />
+    <NavigationProperty Name="CuentaUsuario" Relationship="Self.FK_Direccion_CuentaUsuario" FromRole="Direccion" ToRole="CuentaUsuario" />
+  </EntityType>
+  <EntityType Name="Productos">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="gradosAlcohol" Type="Int16" Nullable="false" />
+    <Property Name="precio" Type="Int16" Nullable="false" />
+    <Property Name="stock" Type="Int16" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="idCategoria" Type="Int32" Nullable="false" />
+    <Property Name="proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="eliminar" Type="Boolean" Nullable="false" />
+    <Property Name="fechaEliminacion" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Categoria" Relationship="Self.FK_Productos_Categoria" FromRole="Productos" ToRole="Categoria" />
+    <NavigationProperty Name="DetalleProveedor" Relationship="Self.FK_DetalleProveedor_Productos" FromRole="Productos" ToRole="DetalleProveedor" />
+    <NavigationProperty Name="DetalleVentas" Relationship="Self.FK_DetalleVentas_Productos" FromRole="Productos" ToRole="DetalleVentas" />
+  </EntityType>
+  <EntityType Name="Proveedor">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="nombreProveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="DetalleProveedor" Relationship="Self.FK_DetalleProveedor_Proveedor" FromRole="Proveedor" ToRole="DetalleProveedor" />
+  </EntityType>
+  <EntityType Name="Region">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Ciudad" Relationship="Self.FK_Ciudad_Region" FromRole="Region" ToRole="Ciudad" />
+  </EntityType>
+  <EntityType Name="Ventas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fecha" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="montoTotal" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="descripcion" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="idUsuario" Type="Int32" />
+    <NavigationProperty Name="CuentaUsuario" Relationship="Self.FK_Ventas_CuentaUsuario" FromRole="Ventas" ToRole="CuentaUsuario" />
+    <NavigationProperty Name="DetalleVentas" Relationship="Self.FK_DetalleVentas_Ventas" FromRole="Ventas" ToRole="DetalleVentas" />
+  </EntityType>
+  <Association Name="FK_Productos_Categoria">
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+    <End Role="Productos" Type="Self.Productos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Productos">
+        <PropertyRef Name="idCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ciudad_Region">
+    <End Role="Region" Type="Self.Region" Multiplicity="1" />
+    <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Ciudad">
+        <PropertyRef Name="idRegion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comunas_Ciudad">
+    <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="1" />
+    <End Role="Comunas" Type="Self.Comunas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ciudad">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Comunas">
+        <PropertyRef Name="idCiudad" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Direccion_Comunas">
+    <End Role="Comunas" Type="Self.Comunas" Multiplicity="1" />
+    <End Role="Direccion" Type="Self.Direccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Comunas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Direccion">
+        <PropertyRef Name="idComunas" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Direccion_CuentaUsuario">
+    <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
+    <End Role="Direccion" Type="Self.Direccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Direccion">
+        <PropertyRef Name="idCuentaUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ventas_CuentaUsuario">
+    <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="0..1" />
+    <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleProveedor_Productos">
+    <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+    <End Role="DetalleProveedor" Type="Self.DetalleProveedor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productos">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="DetalleProveedor">
+        <PropertyRef Name="idProductos" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleProveedor_Proveedor">
+    <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
+    <End Role="DetalleProveedor" Type="Self.DetalleProveedor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proveedor">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="DetalleProveedor">
+        <PropertyRef Name="idProveedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleVentas_Productos">
+    <End Role="Productos" Type="Self.Productos" Multiplicity="1" />
+    <End Role="DetalleVentas" Type="Self.DetalleVentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productos">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="DetalleVentas">
+        <PropertyRef Name="idProducto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DetalleVentas_Ventas">
+    <End Role="Ventas" Type="Self.Ventas" Multiplicity="1" />
+    <End Role="DetalleVentas" Type="Self.DetalleVentas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ventas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="DetalleVentas">
+        <PropertyRef Name="idVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BotilleriaEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categoria" EntityType="Self.Categoria" />
+    <EntitySet Name="Ciudad" EntityType="Self.Ciudad" />
+    <EntitySet Name="Comunas" EntityType="Self.Comunas" />
+    <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
+    <EntitySet Name="DetalleProveedor" EntityType="Self.DetalleProveedor" />
+    <EntitySet Name="DetalleVentas" EntityType="Self.DetalleVentas" />
+    <EntitySet Name="Direccion" EntityType="Self.Direccion" />
+    <EntitySet Name="Productos" EntityType="Self.Productos" />
+    <EntitySet Name="Proveedor" EntityType="Self.Proveedor" />
+    <EntitySet Name="Region" EntityType="Self.Region" />
+    <EntitySet Name="Ventas" EntityType="Self.Ventas" />
+    <AssociationSet Name="FK_Productos_Categoria" Association="Self.FK_Productos_Categoria">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="Productos" EntitySet="Productos" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ciudad_Region" Association="Self.FK_Ciudad_Region">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Ciudad" EntitySet="Ciudad" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comunas_Ciudad" Association="Self.FK_Comunas_Ciudad">
+      <End Role="Ciudad" EntitySet="Ciudad" />
+      <End Role="Comunas" EntitySet="Comunas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Direccion_Comunas" Association="Self.FK_Direccion_Comunas">
+      <End Role="Comunas" EntitySet="Comunas" />
+      <End Role="Direccion" EntitySet="Direccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Direccion_CuentaUsuario" Association="Self.FK_Direccion_CuentaUsuario">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Direccion" EntitySet="Direccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ventas_CuentaUsuario" Association="Self.FK_Ventas_CuentaUsuario">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Ventas" EntitySet="Ventas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleProveedor_Productos" Association="Self.FK_DetalleProveedor_Productos">
+      <End Role="Productos" EntitySet="Productos" />
+      <End Role="DetalleProveedor" EntitySet="DetalleProveedor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleProveedor_Proveedor" Association="Self.FK_DetalleProveedor_Proveedor">
+      <End Role="Proveedor" EntitySet="Proveedor" />
+      <End Role="DetalleProveedor" EntitySet="DetalleProveedor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleVentas_Productos" Association="Self.FK_DetalleVentas_Productos">
+      <End Role="Productos" EntitySet="Productos" />
+      <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DetalleVentas_Ventas" Association="Self.FK_DetalleVentas_Ventas">
+      <End Role="Ventas" EntitySet="Ventas" />
+      <End Role="DetalleVentas" EntitySet="DetalleVentas" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(BotilleriaModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(BotilleriaModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>
